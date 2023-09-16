@@ -1,0 +1,221 @@
+ass 4 
+SET A
+
+1>
+
+import java.io.*; 
+class CovidException extends Exception{ 
+	public CovidException(){ 
+		System.out.println("Patient is Covid Positive and needs to be hospitalized"); 
+	} 
+} 
+class Patient{ 
+	String name; 
+	int age; 
+	double level,hrct; 
+	public Patient(String name,int age,double level,double hrct) 
+	{ 
+		this.name=name; 
+		this.age=age; 
+		this.level=level; 
+		this.hrct=hrct; 
+	} 
+	public static void main(String[] args)throws IOException 
+	{ 
+		String name; 
+		int age; 
+		double level,hrct; 
+		BufferedReader br=new BufferedReader(new InputStreamReader(System.in)); 
+		System.out.println("Enter name: "); 
+		name=br.readLine(); 
+		System.out.println("Enter the age: "); 
+		age=Integer.parseInt(br.readLine()); 
+		System.out.println("Oxygen level: "); 
+		level=Double.parseDouble(br.readLine()); 
+		System.out.println("HRCT report: "); 
+		hrct=Double.parseDouble(br.readLine()); 
+		Patient ob=new Patient(name,age,level,hrct); 
+		try{ 
+			if(ob.level<95 && ob.hrct>10) 
+				throw new CovidException(); 
+			else 
+				System.out.println("Patient Info: \n"+"Name: "+ob.name+"\nAge: "+ob.age+"\nHRCT report: "+ob.hrct+"\nOxygen level: 
+				"+ob.level); 
+		}catch(CovidException e){ 
+		} 
+		
+	} 
+} 
+
+
+
+-----------------------------------------------------
+2>
+
+import java.io.*; 
+import java.util.*; 
+class ass4a2{ 
+	public static void main(String[] args)throws IOException 
+	{ 
+		FileReader file=new FileReader("a.txt"); 
+		Scanner sc=new Scanner(file); 
+		String s; 
+		while(sc.hasNext()) 
+		{ 
+			StringBuffer sb=new StringBuffer(); 
+			s=sc.next(); 
+			String s1=s.toUpperCase(); 
+			sb.append(s1); 
+			sb.reverse(); 
+			System.out.println(sb); 
+		} 
+	} 
+} 
+
+
+--------------------------------------------------
+
+3>
+
+
+import java.io.*; 
+import java.util.*; 
+class ass4a3{ 
+	public static void main(String[] args)throws IOException 
+	{ 
+		int c; 
+		String f1,f2; 
+		Scanner sc=new Scanner(System.in); 
+		System.out.println("Enter name of first file: "); 
+		f1=sc.next(); 
+		System.out.println("Enter name of second file: "); 
+		f2=sc.next(); 
+		FileReader fr=new FileReader(f1); 
+		FileWriter fw=new FileWriter(f2,true); 
+		while((c=fr.read())!=-1) 
+		{ 
+			fw.write(c); 
+		} 
+		fw.append("\nEND OF FILE"); 
+		fr.close(); 
+		fw.close(); 
+	} 
+} 
+
+
+
+##################################################################
+SET B
+
+1>
+import java.io.*; 
+import java.util.*; 
+class ass4b1{ 
+	public static void main(String[] args)throws IOException 
+	{ 
+		String name,line; 
+		int cost=0,ch,flag=0,i,tcost=0; 
+		BufferedReader br=new BufferedReader(new InputStreamReader(System.in)); 
+		File f=new File("book.dat"); 
+		RandomAccessFile rf=new RandomAccessFile(f,"rw"); 
+		do{ 
+			System.out.println("MENU"); 
+			System.out.println("1.Search\n2.Display book and total cost"); 
+			System.out.println("Enter your choice: "); 
+			ch=Integer.parseInt(br.readLine()); 
+			switch(ch) 
+			{ 
+				case 1: 
+					rf.seek(0); 
+					System.out.println("Enter book name to search: "); 
+					name=br.readLine(); 
+					while(rf.getFilePointer()!=f.length()) 
+					{ 
+						line=rf.readLine(); 
+						String a[]=line.split(" "); 
+						if(a[1].equals(name)) 
+						{ 
+							System.out.println("Book available"); 
+							flag=1; 
+							break; 
+						} 
+						else 
+							flag=2;  
+					} 
+					if(flag==2) 
+						System.out.println("Book Unavailable"); 
+					break; 
+				case 2: 
+					rf.seek(0); 
+					while(rf.getFilePointer()!=f.length()) 
+					{ 
+						line=rf.readLine(); 
+						String a[]=line.split(" "); 
+						cost=cost+(Integer.parseInt(a[2])*Integer.parseInt(a[3])); 
+						System.out.println(a[1]+"\t"+cost); 
+						tcost=tcost+(Integer.parseInt(a[2])*Integer.parseInt(a[3])); 
+					} 
+					System.out.println("Total cost\t"+tcost); 
+					break; 
+			} 
+		}while(ch!=2); 
+	} 
+} 
+
+-------------------------------------------------------------
+
+2>
+
+
+import java.io.*; 
+class InvalidUsernameException extends Exception{ 
+	public InvalidUsernameException(){ 
+		System.out.println("Invalid Username"); 
+	} 
+} 
+class InvalidPasswordException extends Exception{ 
+	public InvalidPasswordException(){ 
+		System.out.println("Invalid Password"); 
+	} 
+} 
+class EmailId{ 
+	String uname,pwd; 
+	public EmailId() 
+	{ 
+		uname=""; 
+		pwd=""; 
+	} 
+	public EmailId(String uname,String pwd) 
+	{ 
+		this.uname=uname; 
+		this.pwd=pwd; 
+	} 
+	public static void main(String[] args) 
+	{ 
+		String uname,pwd; 
+		uname=args[0]; 
+		pwd=args[1]; 
+		EmailId ob=new EmailId(uname,pwd); 
+		
+		try{ 
+			if(("mahebshaikh").equals(ob.uname)) 
+				System.out.println("Valid Username"); 
+			else  
+				throw new InvalidUsernameException(); 
+		}catch(InvalidUsernameException e){ } 
+		
+		try{ 
+			if(("maheb1234").equals(ob.pwd)) 
+				System.out.println("Valid Password"); 
+			else  
+				throw new InvalidPasswordException(); 
+		}catch(InvalidPasswordException e1){ } 
+		
+	} 
+} 
+	
+	
+	
+	
+	-------------------------------------------------------------
+##################################################################
